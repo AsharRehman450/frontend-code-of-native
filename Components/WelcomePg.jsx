@@ -1,11 +1,25 @@
 import { View, Text, Image } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { WelcomeStyles } from '../Components/WelcomeStyles';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
-
+import { getData } from '../Components/Async_Storage_Login';
 const WelcomePg = () => {
   const navigation = useNavigation();
+  
+     useEffect(() => {
+    const checkLogin = async () => {
+      const user = await getData('user');
+      if (user) {
+        navigation.replace('TabNavigator'); 
+      } else {
+        navigation.replace('Login'); 
+      }
+    };
+    checkLogin();
+  }, []);
+
+
   return (
     <View style={WelcomeStyles.container}>
       <View style={WelcomeStyles.imageContainer}>
